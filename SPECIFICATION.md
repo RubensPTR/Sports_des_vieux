@@ -27,42 +27,127 @@ Application web HTML/CSS pour gérer un tournoi multi-sport avec 9 équipes. L'a
 
 ```json
 {
+  "version": "1.0",
+  "lastUpdated": "2024-01-15T10:30:00Z",
+  
   "equipes": [
     {
       "id": 1,
-      "nom": "Nom de l'équipe",
+      "nom": "Équipe A",
       "couleur": "#FF5733",
-      "membres": ["Joueur 1", "Joueur 2"]
+      "membres": [
+        {
+          "id": "m1",
+          "nom": "Joueur 1",
+          "dateAjout": "2024-01-01T00:00:00Z"
+        },
+        {
+          "id": "m2",
+          "nom": "Joueur 2",
+          "dateAjout": "2024-01-01T00:00:00Z"
+        }
+      ],
+      "dateCreation": "2024-01-01T00:00:00Z",
+      "actif": true
     }
   ],
+  
   "sports": [
     {
       "id": "pingpong",
       "nom": "Ping Pong",
-      "description": "Tennis de table"
+      "description": "Tennis de table - 1v1 ou équipes",
+      "icone": "🏓",
+      "actif": true
+    },
+    {
+      "id": "petanque",
+      "nom": "Pétanque",
+      "description": "Boules - équipes",
+      "icone": "⚽",
+      "actif": true
     }
   ],
+  
   "matches": [
     {
-      "id": "match_1",
+      "id": "match_001",
       "sport": "pingpong",
-      "equipe1": 1,
-      "equipe2": 2,
-      "score1": 3,
-      "score2": 2,
-      "date": "2024-01-15",
-      "statut": "joué" // "à venir", "en cours", "joué"
+      "equipe1": {
+        "id": 1,
+        "nom": "Équipe A",
+        "couleur": "#FF5733"
+      },
+      "equipe2": {
+        "id": 2,
+        "nom": "Équipe B",
+        "couleur": "#3498DB"
+      },
+      "score": {
+        "equipe1": 3,
+        "equipe2": 2
+      },
+      "date": "2024-01-15T14:00:00Z",
+      "lieu": "Salle sports (optionnel)",
+      "arbitre": "Nom arbitre (optionnel)",
+      "statut": "joué",
+      "notes": "Match serré en 5 sets",
+      "dateCreation": "2024-01-15T10:00:00Z",
+      "dateModification": "2024-01-15T15:30:00Z"
     }
   ],
+  
   "classements": {
+    "general": [
+      {
+        "rang": 1,
+        "equipeId": 1,
+        "nom": "Équipe A",
+        "couleur": "#FF5733",
+        "points": 150,
+        "victoires": 18,
+        "defaites": 2,
+        "ratio": 90.0,
+        "matchsJoues": 20
+      }
+    ],
     "pingpong": [
       {
+        "rang": 1,
         "equipeId": 1,
+        "nom": "Équipe A",
+        "couleur": "#FF5733",
         "points": 45,
         "victoires": 5,
-        "defaites": 2
+        "defaites": 0,
+        "ratio": 100.0,
+        "matchsJoues": 5
+      }
+    ],
+    "petanque": [
+      {
+        "rang": 2,
+        "equipeId": 1,
+        "nom": "Équipe A",
+        "couleur": "#FF5733",
+        "points": 36,
+        "victoires": 4,
+        "defaites": 2,
+        "ratio": 66.7,
+        "matchsJoues": 6
       }
     ]
+  },
+  
+  "parametres": {
+    "theme": "light",
+    "langue": "fr",
+    "dateCreation": "2024-01-01T00:00:00Z",
+    "pointsVictoire": 3,
+    "pointsDefaite": 0,
+    "afficherProchains": 3,
+    "totalEquipes": 9,
+    "totalSports": 5
   }
 }
 ```
