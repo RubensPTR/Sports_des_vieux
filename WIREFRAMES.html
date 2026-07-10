@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframes - Application Tournoi Multi-Sport</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+            margin-top: 40px;
+            font-size: 1.8em;
+            padding-bottom: 10px;
+            border-bottom: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .page-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .page-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-header h3 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .page-icon {
+            font-size: 2em;
+        }
+
+        .page-content {
+            padding: 30px;
+        }
+
+        .wireframe {
+            background: #f5f5f5;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .wireframe-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 40px;
+            border-radius: 4px;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            font-weight: 600;
+        }
+
+        .wireframe-row {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .wireframe-cell {
+            flex: 1;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 3px;
+            border-left: 3px solid #667eea;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .element-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .element-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .element-list li:last-child {
+            border-bottom: none;
+        }
+
+        .element-list em {
+            color: #667eea;
+            font-style: normal;
+            font-weight: 600;
+            min-width: 120px;
+        }
+
+        .navigation-example {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .nav-item {
+            display: inline-block;
+            padding: 8px 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px 5px 5px 0;
+            font-size: 0.9em;
+        }
+
+        .nav-item.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-box {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            text-align: center;
+        }
+
+        .feature-box em {
+            display: block;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-style: normal;
+        }
+
+        .data-flow {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .data-flow h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .flow-box {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-item {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            flex: 1;
+            min-width: 150px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .flow-arrow {
+            color: #667eea;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .pages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 Wireframes - Application Tournoi Multi-Sport</h1>
+
+        <h2>📱 Navigation principale</h2>
+        <div style="background: white; padding: 30px; border-radius: 12px; margin-bottom: 40px;">
+            <p style="color: #666; margin-bottom: 15px;">Navigation accessible depuis tous les pages:</p>
+            <div class="navigation-example">
+                <div class="nav-item active">🏠 Accueil</div>
+                <div class="nav-item">👥 Équipes</div>
+                <div class="nav-item">🏆 Sports</div>
+                <div class="nav-item">📅 Calendrier</div>
+                <div class="nav-item">📊 Classements</div>
+                <div class="nav-item">📈 Statistiques</div>
+                <div class="nav-item">⚙️ Paramètres</div>
+            </div>
+        </div>
+
+        <h2>🎯 Pages principales</h2>
+        <div class="pages-grid">
+            <!-- Page 1: Accueil -->
+            <div class="page-card">
+                <div class="page-header">
+                    <span class="page-icon">🏠</span>
+                    <h3>Accueil / Tableau de bord</h3>
+                </div>
+                <div class="page-content">
+                    <div class="wireframe">
+                        <div class="wireframe-bar">🏆 Classement Général</div>
+                        <div class="wireframe-row">
+                            <div style="flex: 0 0 40px; text-align: center; font-weight: bold;">🥇</div>
+                            <div style="flex: 1;">Équipe A - 150 pts</div>
+                        </div>
+                        <div class="wireframe-row">
+                            <div style="flex: 0 0 40px; text-align: center; font-weight: bold;">🥈</div>
+                            <div style="flex: 1;">Équipe B - 145 pts</div>
+                        </div>
+                        <div class="wireframe-row">
+                            <div style="flex: 0 0 40px; text-align: center; font-weight: bold;">🥉</div>
+                            <div style="flex: 1;">Équipe C - 140 pts</div>
+                        </div>
+                    </div>
+
+                    <ul class="element-list">
+                        <li><em>Statut:</em> Équipe en tête + stats rapides</li>
+                        <li><em>Prochains:</em> 3 prochains matches</li>
+                        <li><em>Totaux:</em> Total matches, équipes, sports</li>
+                        <li><em>Accès:</em> Liens vers pages principales</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Page 2: Équipes -->
+            <div class="page-card">
+                <div class="page-header">
+                    <span class="page-icon">👥</span>
+                    <h3>Liste des Équipes</h3>
+                </div>
+                <div class="page-content">
+                    <div class="wireframe">
+                        <div class="wireframe-bar">Équipes du tournoi</div>
+                        <div class="wireframe-row">
+                            <div style="flex: 0 0 30px; width: 30px; height: 30px; background: #FF5733; border-radius: 50%;"></div>
+                            <div style="flex: 1;">Équipe A</div>
+                            <div style="flex: 0 0 80px; text-align: center;">150 pts</div>
+                            <div style="flex: 0 0 60px; text-align: center;">5 membres</div>
+                        </div>
+                        <div class="wireframe-row">
+                            <div style="flex: 0 0 30px; width: 30px; height: 30px; background: #3498DB; border-radius: 50%;"></div>
+                            <div style="flex: 1;">Équipe B</div>
+                            <div style="flex: 0 0 80px; text-align: center;">145 pts</div>
+                            <div style="flex: 0 0 60px; text-align: center;">4 membres</div>
+                        </div>
+                    </div>
+
+                    <ul class="element-list">
+                        <li><em>Tableau:</em> Toutes les 9 équipes</li>
+                        <li><em>Colonnes:</em> Nom, couleur, membres, score</li>
+                        <li><em>Actions:</em> Éditer, Voir détails, Supprimer</li>
+                        <li><em>Bouton:</em> ➕ Ajouter équipe</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Page 3: Sports -->
+            <div class="page-card">
+                <div class="page-header">
+                    <span class="page-icon">🎯</span>
+                    <h3>Sports et Matches</h3>
+                </div>
+                <div class="page-content">
+                    <div class="feature-grid">
+                        <div class="feature-box">
+                            <em>🏓</em>
+                            <strong>Ping Pong</strong>
+                            <p style="color: #666; font-size: 0.9em; margin-top: 5px;">12/18 matches</p>
+                        </div>
+                        <div class="feature-box">
+                            <em>⚽</em>
+                            <strong>Pétanque</strong>
+                            <p style="color: #666; font-size: 0.9em; margin-top: 5px;">15/18 matches</p>
+                        </div>
+                        <div class="feature-box">
+                            <em>🎮</em>
+                            <strong>Baby Foot</strong>
+                            <p style="color: #666; font-size: 0.9em; margin-top: 5px;">8/18 matches</p>
+                        </div>
+                    </div>
+
+                    <ul class="element-list">
+                        <li><em>Vue 1:</em> Cards pour chaque sport</li>
+                        <li><em>Vue 2:</em> Détails du sport (click sur sport)</li>
+                        <li><em>Infos:</em> Classement + Calendrier + Graphique</li>
+                        <li><em>Action:</em> ➕ Ajouter match</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Page 4: Calendrier -->
+            <div class="page-card">
+                <div class="page-header">
+                    <span class="page-icon">📅</span>
+                    <h3>Calendrier des Matches</h3>
+                </div>
+                <div class="page-content">
+                    <div class="wireframe">
+                        <div class="wireframe-bar">Calendrier</div>
+                        <div class="wireframe-row">
+                            <div style="flex: 0 0 80px;">📅 15 Jan</div>
+                            <div style="flex: 1;">Ping Pong: Équipe A vs B</div>
+                            <div style="flex: 0 0 60px; background: #F39C12; color: white; padding: 5px; border-radius: 3px; text-align: center; font-size: 0.85em;">À venir</div>
+                        </div>
+                        <div class="wireframe-row">
+                            <div style="flex: 0 0 80px;">📅 14 Jan</div>
+                            <div style="flex: 1;">Pétanque: Équipe C vs D - <strong>3:2</strong></div>
+                            <div style="flex: 0 0 60px; background: #27AE60; color: white; padding: 5px; border-radius: 3px; text-align: center; font-size: 0.85em;">Joué</div>
+                        </div>
+                    </div>
+
+                    <ul class="element-list">
+                        <li><em>Ordre:</em> Chronologique (plus récent d'abord)</li>
+                        <li><em>Filtres:</em> Par sport, par statut, par équipe</li>
+                        <li><em>Détails:</em> Sport, équipes, score, date, statut</li>
+                        <li><em>Actions:</em> Éditer, Enregistrer résultat</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Page 5: Classements -->
+            <div class="page-card">
+                <div class="page-header">
+                    <span class="page-icon">🏆</span>
+                    <h3>Classements</h3>
+                </div>
+                <div class="page-content">
+                    <div class="wireframe">
+                        <div class="wireframe-bar">Classement Général</div>
+                        <div class="wireframe-row">
+                            <div style="flex: 0 0 35px; text-align: center; font-weight: bold;">1</div>
+                            <div style="flex: 0 0 30px; width: 30px; height: 30px; background: #FF5733; border-radius: 50%;"></div>
+                            <div style="flex: 1;">Équipe A</div>
+                            <div style="flex: 0 0 50px; text-align: right;"><strong>150</strong></div>
+                            <div style="flex: 0 0 50px; text-align: center;">18V - 2D</div>
+                        </div>
+                        <div class="wireframe-row">
+                            <div style="flex: 0 0 35px; text-align: center; font-weight: bold;">2</div>
+                            <div style="flex: 0 0 30px; width: 30px; height: 30px; background: #3498DB; border-radius: 50%;"></div>
+                            <div style="flex: 1;">Équipe B</div>
+                            <div style="flex: 0 0 50px; text-align: right;"><strong>145</strong></div>
+                            <div style="flex: 0 0 50px; text-align: center;">17V - 3D</div>
+                        </div>
+                    </div>
+
+                    <ul class="element-list">
+                        <li><em>Vue 1:</em> Classement général (tous sports)</li>
+                        <li><em>Vue 2:</em> Onglets par sport (5 onglets)</li>
+                        <li><em>Colonnes:</em> Rang, Équipe, Points, V/D, Ratio</li>
+                        <li><em>Tri:</em> Points (défaut), Victoires, Défaites</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Page 6: Statistiques -->
+            <div class="page-card">
+                <div class="page-header">
+                    <span class="page-icon">📈</span>
+                    <h3>Graphiques et Statistiques</h3>
+                </div>
+                <div class="page-content">
+                    <div class="feature-grid">
+                        <div class="feature-box">
+                            <em>📊</em>
+                            <strong>Évolution Points</strong>
+                            <p style="color: #666; font-size: 0.9em; margin-top: 5px;">Courbe</p>
+                        </div>
+                        <div class="feature-box">
+                            <em>📈</em>
+                            <strong>V/D par Sport</strong>
+                            <p style="color: #666; font-size: 0.9em; margin-top: 5px;">Barres</p>
+                        </div>
+                        <div class="feature-box">
+                            <em>🥧</em>
+                            <strong>Distribution Victoires</strong>
+                            <p style="color: #666; font-size: 0.9em; margin-top: 5px;">Camembert</p>
+                        </div>
+                        <div class="feature-box">
+                            <em>⚔️</em>
+                            <strong>Tête-à-tête</strong>
+                            <p style="color: #666; font-size: 0.9em; margin-top: 5px;">Radar</p>
+                        </div>
+                    </div>
+
+                    <ul class="element-list">
+                        <li><em>Graphs:</em> Minimum 4 visualisations</li>
+                        <li><em>Filtres:</em> Par sport, par équipe</li>
+                        <li><em>Interactif:</em> Hover pour détails</li>
+                        <li><em>Export:</em> Télécharger en image</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h2>📋 Détails - Page Équipe</h2>
+        <div class="page-card" style="margin-bottom: 40px;">
+            <div class="page-header">
+                <span class="page-icon">👤</span>
+                <h3>Profil d'une Équipe</h3>
+            </div>
+            <div class="page-content">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <strong style="display: block; margin-bottom: 10px; color: #667eea;">Informations générales:</strong>
+                        <ul class="element-list" style="margin-bottom: 20px;">
+                            <li><em>Couleur:</em> Identifiants visuels</li>
+                            <li><em>Membres:</em> Liste des joueurs</li>
+                            <li><em>Score global:</em> Points totaux</li>
+                            <li><em>Stats:</em> V/D/Ratio</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong style="display: block; margin-bottom: 10px; color: #667eea;">Onglets:</strong>
+                        <ul class="element-list">
+                            <li><em>Classement:</em> Par sport (tableau)</li>
+                            <li><em>Historique:</em> Tous les matches</li>
+                            <li><em>Statistiques:</em> Graphiques perso</li>
+                            <li><em>Face-à-face:</em> Bilan vs autres</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>🗄️ Structure des données</h2>
+        <div class="data-flow">
+            <h3>Flow utilisateur et persistence</h3>
+            <div class="flow-box">
+                <div class="flow-item">
+                    <strong>Navigateur</strong>
+                    <p style="color: #666; margin-top: 5px; font-size: 0.9em;">Interface HTML/CSS/JS</p>
+                </div>
+                <div class="flow-arrow">↔️</div>
+                <div class="flow-item">
+                    <strong>localStorage</strong>
+                    <p style="color: #666; margin-top: 5px; font-size: 0.9em;">Données en JSON</p>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #667eea;">
+                <strong style="display: block; margin-bottom: 15px; color: #333;">Collections localStorage:</strong>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+                    <div style="background: #f9f9f9; padding: 12px; border-radius: 6px; border-left: 3px solid #27AE60;">
+                        <strong style="display: block; margin-bottom: 5px; color: #27AE60;">equipes</strong>
+                        <p style="font-size: 0.85em; color: #666;">9 équipes avec infos</p>
+                    </div>
+                    <div style="background: #f9f9f9; padding: 12px; border-radius: 6px; border-left: 3px solid #27AE60;">
+                        <strong style="display: block; margin-bottom: 5px; color: #27AE60;">sports</strong>
+                        <p style="font-size: 0.85em; color: #666;">5 sports (preset)</p>
+                    </div>
+                    <div style="background: #f9f9f9; padding: 12px; border-radius: 6px; border-left: 3px solid #27AE60;">
+                        <strong style="display: block; margin-bottom: 5px; color: #27AE60;">matches</strong>
+                        <p style="font-size: 0.85em; color: #666;">Résultats des matches</p>
+                    </div>
+                    <div style="background: #f9f9f9; padding: 12px; border-radius: 6px; border-left: 3px solid #27AE60;">
+                        <strong style="display: block; margin-bottom: 5px; color: #27AE60;">parametres</strong>
+                        <p style="font-size: 0.85em; color: #666;">Config de l'app</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>🎨 Système de scoring</h2>
+        <div style="background: white; padding: 30px; border-radius: 12px; margin-bottom: 40px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                <div style="text-align: center; padding: 20px; background: #E8F8F5; border-radius: 8px; border-left: 4px solid #27AE60;">
+                    <strong style="font-size: 1.2em; color: #27AE60;">Victoire</strong>
+                    <p style="font-size: 2em; margin: 10px 0; color: #27AE60;">+3 pts</p>
+                </div>
+                <div style="text-align: center; padding: 20px; background: #FEF5E7; border-radius: 8px; border-left: 4px solid #F39C12;">
+                    <strong style="font-size: 1.2em; color: #F39C12;">Égalité</strong>
+                    <p style="font-size: 2em; margin: 10px 0; color: #F39C12;">+1 pt</p>
+                </div>
+                <div style="text-align: center; padding: 20px; background: #FADBD8; border-radius: 8px; border-left: 4px solid #E74C3C;">
+                    <strong style="font-size: 1.2em; color: #E74C3C;">Défaite</strong>
+                    <p style="font-size: 2em; margin: 10px 0; color: #E74C3C;">+0 pts</p>
+                </div>
+            </div>
+            <p style="color: #666; margin-top: 20px; text-align: center;">
+                Les points d'une équipe = Somme des points de tous ses matches, tous sports confondus
+            </p>
+        </div>
+
+        <div class="footer">
+            <p style="margin-bottom: 15px;">🎯 Application Web - Tournoi Multi-Sport</p>
+            <p style="font-size: 0.9em; opacity: 0.8;">Spécification complète avec wireframes | HTML5 + CSS3 + JavaScript vanilla</p>
+        </div>
+    </div>
+</body>
+</html>
