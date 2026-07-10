@@ -1,4 +1,6 @@
-/* Données par défaut + DataManager + Calculator (cf. SPECIFICATION.md) */
+/* Données par défaut + DataManager + Calculator (cf. SPECIFICATION.md)
+   Les valeurs par défaut sont dans data/initial-data.json ; les constantes
+   ci-dessous servent de secours quand le fichier est inaccessible (file://). */
 
 const DEFAULT_SPORTS = [
   { id: 'pingpong',     nom: 'Ping Pong',    description: 'Tennis de table — 1v1 ou équipes', icone: '🏓', actif: true },
@@ -8,8 +10,7 @@ const DEFAULT_SPORTS = [
   { id: 'concombraise', nom: 'Concombraise', description: 'Sport personnalisé. Règles floues, blessures garanties.', icone: '🥒', actif: true },
 ];
 
-// 9 équipes par défaut, noms d'usine (personnalisables dans Équipes)
-const DEFAULT_EQUIPES_NOMS = [
+const DEFAULT_EQUIPES = [
   ['Les Genoux Fragiles',    '#e74c3c'],
   ['Cardio Zéro',            '#3498db'],
   ['Sieste United',          '#9b59b6'],
@@ -21,12 +22,15 @@ const DEFAULT_EQUIPES_NOMS = [
   ['Ligament Croisé Social', '#00a8ff'],
 ];
 
-function buildDefaults() {
+function buildDefaults(seed) {
   const now = new Date().toISOString();
+  const equipesSrc = seed?.equipes?.length
+    ? seed.equipes.map(e => [e.nom, e.couleur])
+    : DEFAULT_EQUIPES;
   return {
     version: '1.0',
     lastUpdated: now,
-    equipes: DEFAULT_EQUIPES_NOMS.map(([nom, couleur], i) => ({
+    equipes: equipesSrc.map(([nom, couleur], i) => ({
       id: i + 1,
       nom,
       couleur,
@@ -34,7 +38,7 @@ function buildDefaults() {
       dateCreation: now,
       actif: true,
     })),
-    sports: DEFAULT_SPORTS,
+    sports: seed?.sports?.length ? seed.sports : DEFAULT_SPORTS,
     matches: [],
     parametres: {
       theme: 'dark',

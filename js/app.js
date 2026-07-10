@@ -483,7 +483,7 @@ function renderParametres() {
   document.getElementById('btn-reset').onclick = () => {
     if (confirm('Tout effacer ? Équipes, matchs, souvenirs de gloire… Irréversible.')) {
       storage.reset();
-      storage.init(buildDefaults());
+      storage.init(buildDefaults(SEED));
       applyTheme('dark');
       location.hash = '#/';
       toast('Remise à zéro. Comme vos genoux, mais en mieux. 🧨');
@@ -522,8 +522,23 @@ function applyTheme(theme) {
 }
 
 /* ---------- Init ---------- */
-document.addEventListener('DOMContentLoaded', () => {
-  storage.init(buildDefaults());
+async function loadSeed() {
+  // Équipes/sports par défaut éditables dans data/initial-data.json ;
+  // en file:// (fetch impossible) on retombe sur les valeurs embarquées.
+  try {
+    const res = await fetch('data/initial-data.json');
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+let SEED = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  SEED = await loadSeed();
+  storage.init(buildDefaults(SEED));
   applyTheme(storage.getParametres().theme || 'dark');
   document.getElementById('tagline').textContent = pick(TAGLINES);
   window.addEventListener('hashchange', route);
