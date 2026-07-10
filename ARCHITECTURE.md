@@ -11,7 +11,6 @@ sports-tournament/
 │   ├── equipe-detail.html     # Détails d'une équipe
 │   ├── sports.html            # Vue sports (grid)
 │   ├── sport-detail.html      # Détails d'un sport
-│   ├── calendrier.html        # Calendrier des matches
 │   ├── classements.html       # Classements
 │   ├── statistiques.html      # Graphiques et stats
 │   └── parametres.html        # Paramètres

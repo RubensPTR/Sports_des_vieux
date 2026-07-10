@@ -119,39 +119,14 @@ Application web HTML/CSS pour gérer un tournoi multi-sport avec 9 équipes. L'a
 #### 3b. Détails d'un sport
 - 📊 Classement du sport
   - Rang, Équipe, Points, Victoires, Défaites, Ratio
-- 📅 Calendrier des matches
-  - Affichage filtrable: À venir, En cours, Joués
-  - Formulaire pour enregistrer un nouveau match
+- ➕ Formulaire pour enregistrer un nouveau match
+  - Sélection des 2 équipes
+  - Enregistrement des scores
 - 📈 Graphique: Points/Victoires par équipe (pour ce sport)
 
 ---
 
-### 4. **Calendrier / Planning**
-**Objectif**: Vue chronologique de tous les matches
-
-**Éléments**:
-- 📅 Vue calendrier ou liste chronologique
-- Filtres:
-  - Par sport
-  - Par statut (à venir, joué)
-  - Par équipe
-- Détails de chaque match:
-  - Sport
-  - Équipe 1 vs Équipe 2
-  - Score
-  - Date
-  - Actions: Éditer, Marquer comme joué
-
-**Formulaire d'ajout de match**:
-- Sélection du sport
-- Équipe 1 et Équipe 2 (dropdown)
-- Scores (si déjà joué)
-- Date
-- Statut
-
----
-
-### 5. **Classements généraux**
+### 4. **Classements généraux**
 **Objectif**: Vue synthétique des classements
 
 **Affichage**:
@@ -169,7 +144,7 @@ Application web HTML/CSS pour gérer un tournoi multi-sport avec 9 équipes. L'a
 
 ---
 
-### 6. **Graphiques et statistiques**
+### 5. **Graphiques et statistiques**
 **Objectif**: Analyse visuelle des performances
 
 **Graphiques à afficher**:
@@ -186,7 +161,7 @@ Application web HTML/CSS pour gérer un tournoi multi-sport avec 9 équipes. L'a
 
 ---
 
-### 7. **Détails d'une équipe**
+### 6. **Détails d'une équipe**
 **Objectif**: Profil complet d'une équipe
 
 **Éléments**:
@@ -204,7 +179,7 @@ Application web HTML/CSS pour gérer un tournoi multi-sport avec 9 équipes. L'a
 
 ---
 
-### 8. **Paramètres / Configuration**
+### 7. **Paramètres / Configuration**
 **Objectif**: Gérer les paramètres de l'app
 
 **Options**:
@@ -263,7 +238,7 @@ Application web HTML/CSS pour gérer un tournoi multi-sport avec 9 équipes. L'a
 
 ### Utilisation courante
 1. Accueil → Vue d'ensemble
-2. Calendrier → Enregistrer un nouveau match
+2. Sports → Sélectionner un sport et enregistrer un match
 3. Classements → Consulter les résultats
 4. Détails équipe → Analyser une équipe
 
@@ -321,11 +296,10 @@ Application web HTML/CSS pour gérer un tournoi multi-sport avec 9 équipes. L'a
 
 - [ ] Page d'accueil
 - [ ] Gestion des équipes (CRUD)
-- [ ] Enregistrement des matches
+- [ ] Enregistrement des matches (par sport)
 - [ ] Classements généraux
 - [ ] Classements par sport
 - [ ] Détails des équipes
-- [ ] Calendrier
 - [ ] Graphiques basiques
 - [ ] localStorage (save/load)
 - [ ] Design responsive
