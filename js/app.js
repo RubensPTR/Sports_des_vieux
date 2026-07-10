@@ -536,6 +536,13 @@ async function loadSeed() {
 
 let SEED = null;
 
+// PWA : service worker pour le mode hors ligne (http(s) uniquement)
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => { /* pas bloquant */ });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   SEED = await loadSeed();
   storage.init(buildDefaults(SEED));
