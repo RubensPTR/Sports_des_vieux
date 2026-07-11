@@ -1,7 +1,7 @@
 /* Sports des Vieux — point d'entrée, routeur hash et rendu des pages */
 
 /* À incrémenter à chaque modification livrée (voir règle dans CLAUDE.md) */
-const APP_VERSION = '1.2.0';
+const APP_VERSION = '1.3.0';
 
 const storage = new StorageManager();
 const dm = new DataManager(storage);
@@ -120,13 +120,75 @@ function matchRow(m) {
   const s1 = m.score.equipe1, s2 = m.score.equipe2;
   const sport = dm.getSport(m.sport);
   return `
-    <div class="match-row">
+    <div class="match-row match-row-edit" data-match="${esc(m.id)}" role="button" tabindex="0" title="Modifier ce match">
       <span title="${esc(sport?.nom || '')}">${sport?.icone || '❔'}</span>
       <div class="match-team"><span class="dot" style="background:${m.equipe1.couleur};color:${m.equipe1.couleur}"></span><span class="n ${s1 > s2 ? 'match-winner' : ''}">${esc(m.equipe1.nom)}</span></div>
       <div class="match-score">${s1} – ${s2}</div>
       <div class="match-team right"><span class="n ${s2 > s1 ? 'match-winner' : ''}">${esc(m.equipe2.nom)}</span><span class="dot" style="background:${m.equipe2.couleur};color:${m.equipe2.couleur}"></span></div>
       <span class="match-date">${fmtDate(m.date)}</span>
+      <span class="match-edit-icon" aria-hidden="true">✏️</span>
     </div>`;
+}
+
+/* --- Édition d'un match déjà joué --- */
+function openMatchModal(id) {
+  const m = dm.getMatch(id);
+  if (!m) { toast('Match introuvable.', 'error'); return; }
+  const equipes = dm.getAllEquipes();
+  const sports = dm.getAllSports();
+  const opt = (e, sel) => `<option value="${e.id}" ${e.id === sel ? 'selected' : ''}>${esc(e.nom)}</option>`;
+
+  const body = `
+    <form id="match-edit-form">
+      <div class="form-group"><label>Sport</label>
+        <select name="sport">${sports.map(s => `<option value="${s.id}" ${s.id === m.sport ? 'selected' : ''}>${s.icone} ${esc(s.nom)}</option>`).join('')}</select></div>
+      <div class="score-row">
+        <div class="form-group"><label>Équipe 1</label>
+          <select name="e1" required>${equipes.map(e => opt(e, m.equipe1.id)).join('')}</select></div>
+        <div class="score-vs">VS</div>
+        <div class="form-group"><label>Équipe 2</label>
+          <select name="e2" required>${equipes.map(e => opt(e, m.equipe2.id)).join('')}</select></div>
+      </div>
+      <div class="score-row">
+        <div class="form-group"><label>Score 1</label><input type="number" name="s1" min="0" step="1" required inputmode="numeric" value="${m.score.equipe1}"></div>
+        <div class="score-vs">–</div>
+        <div class="form-group"><label>Score 2</label><input type="number" name="s2" min="0" step="1" required inputmode="numeric" value="${m.score.equipe2}"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="btn-del-match">🗑️ Supprimer</button>
+        <button type="button" class="btn" id="btn-cancel-match">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </form>`;
+
+  openModal('✏️ Éditer le match', body, root => {
+    root.querySelector('#btn-cancel-match').onclick = closeModal;
+    root.querySelector('#btn-del-match').onclick = () => {
+      if (!confirm('Supprimer ce match ? Le classement sera recalculé.')) return;
+      dm.deleteMatch(m.id);
+      closeModal();
+      route();
+      toast('Match supprimé. Comme s\'il n\'avait jamais eu lieu. 🫥');
+    };
+    root.querySelector('#match-edit-form').onsubmit = e => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      try {
+        dm.updateMatch(m.id, {
+          sportId: f.get('sport'),
+          equipe1Id: f.get('e1'),
+          equipe2Id: f.get('e2'),
+          score1: f.get('s1'),
+          score2: f.get('s2'),
+        });
+        closeModal();
+        route();
+        toast('Match mis à jour ✅ Le classement suit.');
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    };
+  });
 }
 
 /* --- Équipes --- */
@@ -585,5 +647,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   applyTheme(storage.getParametres().theme || 'dark');
   document.getElementById('app-version').textContent = `v${APP_VERSION}`;
   window.addEventListener('hashchange', route);
+  // Clic (ou Entrée/Espace) sur une ligne de match → édition
+  const onMatchActivate = target => {
+    const row = target.closest('.match-row-edit');
+    if (row && $app.contains(row)) openMatchModal(row.dataset.match);
+  };
+  $app.addEventListener('click', e => onMatchActivate(e.target));
+  $app.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList?.contains('match-row-edit')) {
+      e.preventDefault();
+      onMatchActivate(e.target);
+    }
+  });
   route();
 });
