@@ -58,7 +58,7 @@ body {
 .topbar-inner {
   max-width: 960px;
   margin: 0 auto;
-  padding: 10px 16px;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
