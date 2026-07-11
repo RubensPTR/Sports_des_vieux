@@ -1,7 +1,7 @@
 /* Service worker — précache le shell de l'app pour le mode hors ligne.
    Incrémenter CACHE_VERSION à chaque déploiement qui modifie ces fichiers. */
 
-const CACHE_VERSION = 'sdv-v1';
+const CACHE_VERSION = 'sdv-v2';
 
 const PRECACHE = [
   './',
