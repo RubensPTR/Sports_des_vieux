@@ -1,7 +1,7 @@
 /* Service worker — précache le shell de l'app pour le mode hors ligne.
    Incrémenter CACHE_VERSION à chaque déploiement qui modifie ces fichiers. */
 
-const CACHE_VERSION = 'sdv-v5';
+const CACHE_VERSION = 'sdv-v6';
 
 const PRECACHE = [
   './',
@@ -18,9 +18,11 @@ const PRECACHE = [
 ];
 
 self.addEventListener('install', event => {
+  // On s'active immédiatement : pas de mise en attente, pas de bandeau côté app.
   event.waitUntil(
     caches.open(CACHE_VERSION)
       .then(cache => cache.addAll(PRECACHE))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -30,14 +32,6 @@ self.addEventListener('activate', event => {
       .then(keys => Promise.all(keys.filter(k => k !== CACHE_VERSION).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
-});
-
-// Le nouveau SW reste en attente tant que l'utilisateur n'a pas cliqué sur
-// « Rafraîchir » (voir js/app.js) : ça évite de couper un client en pleine saisie.
-self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
 });
 
 // Réseau d'abord (pour récupérer les mises à jour), cache en secours :
