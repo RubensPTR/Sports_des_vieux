@@ -1,7 +1,7 @@
 /* Sports des Vieux — point d'entrée, routeur hash et rendu des pages */
 
 /* À incrémenter à chaque modification livrée (voir règle dans CLAUDE.md) */
-const APP_VERSION = '1.3.1';
+const APP_VERSION = '1.4.0';
 
 const storage = new StorageManager();
 const dm = new DataManager(storage);
@@ -611,21 +611,12 @@ function reloadForUpdate() {
   window.location.reload();
 }
 
-// PWA : service worker pour le mode hors ligne (http(s) uniquement)
+// PWA : service worker pour le mode hors ligne (http(s) uniquement).
+// Les mises à jour s'appliquent automatiquement : le nouveau SW s'active seul
+// (skipWaiting dans sw.js) puis on recharge une fois. Aucun bandeau, aucun clic.
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').then(reg => {
-      const notifyIfWaiting = () => { if (reg.waiting) showUpdateBanner(reg.waiting); };
-      notifyIfWaiting();
-      reg.addEventListener('updatefound', () => {
-        const installing = reg.installing;
-        if (!installing) return;
-        installing.addEventListener('statechange', () => {
-          if (installing.state === 'installed' && navigator.serviceWorker.controller) {
-            showUpdateBanner(installing);
-          }
-        });
-      });
       // Vérifie une éventuelle mise à jour à chaque retour au premier plan.
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') reg.update().catch(() => {});
@@ -634,20 +625,6 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   });
 
   navigator.serviceWorker.addEventListener('controllerchange', reloadForUpdate);
-}
-
-function showUpdateBanner(worker) {
-  const banner = document.getElementById('update-banner');
-  banner.hidden = false;
-  const btn = document.getElementById('update-btn');
-  btn.onclick = () => {
-    btn.disabled = true;
-    if (worker) worker.postMessage({ type: 'SKIP_WAITING' });
-    // Filet de sécurité : iOS / PWA installée ne déclenche pas toujours
-    // « controllerchange ». On force alors le rechargement — la stratégie
-    // réseau d'abord du service worker sert quand même la nouvelle version.
-    setTimeout(reloadForUpdate, 2000);
-  };
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
