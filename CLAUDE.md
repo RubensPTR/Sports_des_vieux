@@ -10,6 +10,10 @@ L'app est déployée via **GitHub Pages**, pas Vercel (le `vercel.json` présent
 
 Donc pour mettre en prod : **merger/pousser sur `main`** suffit — GitHub Actions se charge du reste.
 
+## Numéro de version
+
+`APP_VERSION` (`js/app.js`, tout en haut) est affiché en bas de chaque page (`#app-footer`, peuplé au démarrage dans `DOMContentLoaded`). **Règle : incrémenter `APP_VERSION` à chaque modification livrée** (bump patch pour un correctif, minor pour une nouvelle fonctionnalité), pour que la version affichée reflète toujours le dernier changement déployé.
+
 ## Service worker
 
 Penser à incrémenter `CACHE_VERSION` dans `sw.js` à chaque déploiement qui modifie un fichier précaché (`index.html`, `css/main.css`, `js/*.js`, `manifest.webmanifest`, icônes), pour forcer le renouvellement du cache côté utilisateurs.

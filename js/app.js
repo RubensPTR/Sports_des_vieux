@@ -1,5 +1,8 @@
 /* Sports des Vieux — point d'entrée, routeur hash et rendu des pages */
 
+/* À incrémenter à chaque modification livrée (voir règle dans CLAUDE.md) */
+const APP_VERSION = '1.1.0';
+
 const storage = new StorageManager();
 const dm = new DataManager(storage);
 const calc = new Calculator(dm);
@@ -561,6 +564,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   storage.init(buildDefaults(SEED));
   applyTheme(storage.getParametres().theme || 'dark');
   document.getElementById('tagline').textContent = pick(TAGLINES);
+  document.getElementById('app-footer').textContent = `Sports des Vieux · v${APP_VERSION}`;
   window.addEventListener('hashchange', route);
   route();
 });
