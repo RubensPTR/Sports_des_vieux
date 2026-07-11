@@ -1,7 +1,7 @@
 /* Sports des Vieux — point d'entrée, routeur hash et rendu des pages */
 
 /* À incrémenter à chaque modification livrée (voir règle dans CLAUDE.md) */
-const APP_VERSION = '1.2.0';
+const APP_VERSION = '1.2.1';
 
 const storage = new StorageManager();
 const dm = new DataManager(storage);

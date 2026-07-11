@@ -333,6 +333,7 @@ input[type="color"] { padding: 4px; height: 44px; cursor: pointer; }
   font-size: .9em;
   animation: slideUp .2s ease;
 }
+.update-banner[hidden] { display: none; }
 
 /* ---------- Tab bar (mobile nav) ---------- */
 .tabbar {
