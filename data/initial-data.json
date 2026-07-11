@@ -1,0 +1,20 @@
+{
+  "equipes": [
+    { "nom": "Les Genoux Fragiles",    "couleur": "#e74c3c" },
+    { "nom": "Cardio Zéro",            "couleur": "#3498db" },
+    { "nom": "Sieste United",          "couleur": "#9b59b6" },
+    { "nom": "Les Papys Flingueurs",   "couleur": "#e67e22" },
+    { "nom": "Dos Cassé FC",           "couleur": "#1abc9c" },
+    { "nom": "Les Hanches d'Acier",    "couleur": "#f1c40f" },
+    { "nom": "Apéro Sport Club",       "couleur": "#2ecc71" },
+    { "nom": "Les Increvables",        "couleur": "#e84393" },
+    { "nom": "Ligament Croisé Social", "couleur": "#00a8ff" }
+  ],
+  "sports": [
+    { "id": "pingpong",     "nom": "Ping Pong",    "description": "Tennis de table — 1v1 ou équipes", "icone": "🏓", "actif": true },
+    { "id": "petanque",     "nom": "Pétanque",     "description": "Boules — équipes",                 "icone": "🎯", "actif": true },
+    { "id": "babyfoot",     "nom": "Baby Foot",    "description": "Babyfoot — équipes",               "icone": "⚽", "actif": true },
+    { "id": "spikeball",    "nom": "Spike Ball",   "description": "Jeu de ballon — équipes",          "icone": "🥎", "actif": true },
+    { "id": "concombraise", "nom": "Concombraise", "description": "Sport personnalisé. Règles floues, blessures garanties.", "icone": "🥒", "actif": true }
+  ]
+}
