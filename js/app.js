@@ -1,7 +1,7 @@
 /* Sports des Vieux — point d'entrée, routeur hash et rendu des pages */
 
 /* À incrémenter à chaque modification livrée (voir règle dans CLAUDE.md) */
-const APP_VERSION = '1.1.1';
+const APP_VERSION = '1.2.0';
 
 const storage = new StorageManager();
 const dm = new DataManager(storage);
@@ -544,8 +544,39 @@ let SEED = null;
 // PWA : service worker pour le mode hors ligne (http(s) uniquement)
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => { /* pas bloquant */ });
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      const notifyIfWaiting = () => { if (reg.waiting) showUpdateBanner(reg.waiting); };
+      notifyIfWaiting();
+      reg.addEventListener('updatefound', () => {
+        const installing = reg.installing;
+        if (!installing) return;
+        installing.addEventListener('statechange', () => {
+          if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+            showUpdateBanner(installing);
+          }
+        });
+      });
+      // Vérifie une éventuelle mise à jour à chaque retour au premier plan.
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') reg.update().catch(() => {});
+      });
+    }).catch(() => { /* pas bloquant */ });
   });
+
+  let reloadingForUpdate = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloadingForUpdate) return;
+    reloadingForUpdate = true;
+    window.location.reload();
+  });
+}
+
+function showUpdateBanner(worker) {
+  const banner = document.getElementById('update-banner');
+  banner.hidden = false;
+  document.getElementById('update-btn').onclick = () => {
+    worker.postMessage({ type: 'SKIP_WAITING' });
+  };
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
