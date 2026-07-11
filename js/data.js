@@ -141,6 +141,40 @@ class DataManager {
     return match;
   }
 
+  getMatch(id) {
+    return this.storage.getMatches().find(m => m.id === id);
+  }
+
+  updateMatch(id, { sportId, equipe1Id, equipe2Id, score1, score2, notes } = {}) {
+    const matches = this.storage.getMatches();
+    const match = matches.find(m => m.id === id);
+    if (!match) throw new Error('Match introuvable.');
+
+    const sport = sportId ?? match.sport;
+    if (!this.getSport(sport)) throw new Error('Sport inconnu.');
+
+    const e1 = this.getEquipe(equipe1Id ?? match.equipe1.id);
+    const e2 = this.getEquipe(equipe2Id ?? match.equipe2.id);
+    if (!e1 || !e2) throw new Error('Choisissez deux équipes.');
+    if (e1.id === e2.id) throw new Error('Une équipe ne peut pas jouer contre elle-même (même après l\'apéro).');
+
+    const s1 = Number(score1 ?? match.score.equipe1);
+    const s2 = Number(score2 ?? match.score.equipe2);
+    if (!Number.isInteger(s1) || !Number.isInteger(s2) || s1 < 0 || s2 < 0) {
+      throw new Error('Les scores doivent être des entiers positifs.');
+    }
+
+    match.sport = sport;
+    match.equipe1 = { id: e1.id, nom: e1.nom, couleur: e1.couleur };
+    match.equipe2 = { id: e2.id, nom: e2.nom, couleur: e2.couleur };
+    match.score = { equipe1: s1, equipe2: s2 };
+    if (notes !== undefined) match.notes = notes;
+    match.dateModification = new Date().toISOString();
+
+    this.storage.saveMatches(matches);
+    return match;
+  }
+
   deleteMatch(id) {
     const matches = this.storage.getMatches().filter(m => m.id !== id);
     this.storage.saveMatches(matches);
