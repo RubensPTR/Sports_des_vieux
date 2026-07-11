@@ -58,6 +58,11 @@ function teamDot(e) {
   return `<span class="dot" style="background:${e.couleur};color:${e.couleur}"></span>`;
 }
 
+function membresLabel(membres) {
+  const names = (membres || []).map(m => m.nom.trim()).filter(Boolean).slice(0, 3);
+  return names.join(' & ');
+}
+
 /* ---------- Modal ---------- */
 function openModal(title, bodyHtml, onMount) {
   const root = document.getElementById('modal-root');
@@ -172,13 +177,12 @@ function openEquipeModal(id) {
   const membres = eq ? [...eq.membres] : [];
   const body = `
     <form id="equipe-form">
-      <div class="form-group"><label>Nom de l'équipe</label>
-        <input name="nom" required maxlength="50" value="${eq ? esc(eq.nom) : ''}" placeholder="Ex : Les Tendinites Célestes"></div>
       <div class="form-group"><label>Couleur</label>
         <input type="color" name="couleur" value="${eq ? eq.couleur : '#f0a840'}"></div>
-      <div class="form-group"><label>Membres</label>
+      <div class="form-group"><label>Équipiers (2 à 3 max affichés)</label>
         <div class="membres-list" id="membres-list"></div>
-        <button type="button" class="btn btn-sm" id="btn-add-membre">+ Ajouter un membre</button>
+        <button type="button" class="btn btn-sm" id="btn-add-membre">+ Ajouter un équipier</button>
+        <p class="small-note" id="nom-preview"></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" id="btn-cancel">Annuler</button>
@@ -188,28 +192,37 @@ function openEquipeModal(id) {
 
   openModal(eq ? '✏️ Éditer l\'équipe' : '➕ Nouvelle équipe', body, root => {
     const list = root.querySelector('#membres-list');
+    const preview = root.querySelector('#nom-preview');
+    const updatePreview = () => {
+      const label = membresLabel(membres);
+      preview.textContent = label ? `Affiché comme : ${label}` : 'Ajoutez au moins un équipier pour nommer l\'équipe.';
+    };
     const renderMembres = () => {
       list.innerHTML = membres.map((m, i) => `
         <div class="membre-row">
           <input value="${esc(m.nom)}" data-mi="${i}" placeholder="Nom du joueur">
           <button type="button" class="btn btn-sm btn-danger" data-del="${i}" aria-label="Retirer">✕</button>
         </div>`).join('') || '<p class="small-note">Aucun membre. Une équipe fantôme, classique.</p>';
-      list.querySelectorAll('[data-mi]').forEach(inp => inp.oninput = () => { membres[Number(inp.dataset.mi)].nom = inp.value; });
-      list.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { membres.splice(Number(b.dataset.del), 1); renderMembres(); });
+      list.querySelectorAll('[data-mi]').forEach(inp => inp.oninput = () => { membres[Number(inp.dataset.mi)].nom = inp.value; updatePreview(); });
+      list.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { membres.splice(Number(b.dataset.del), 1); renderMembres(); updatePreview(); });
     };
     renderMembres();
+    updatePreview();
     root.querySelector('#btn-add-membre').onclick = () => {
       membres.push({ id: 'm' + Date.now(), nom: '', dateAjout: new Date().toISOString() });
       renderMembres();
+      updatePreview();
     };
     root.querySelector('#btn-cancel').onclick = closeModal;
     root.querySelector('#equipe-form').onsubmit = e => {
       e.preventDefault();
       const f = new FormData(e.target);
       const clean = membres.filter(m => m.nom.trim());
+      const nom = membresLabel(clean);
+      if (!nom) { toast('Ajoutez au moins un équipier avant d\'enregistrer.', 'error'); return; }
       try {
-        if (eq) dm.updateEquipe(eq.id, { nom: f.get('nom'), couleur: f.get('couleur'), membres: clean });
-        else dm.createEquipe(f.get('nom'), f.get('couleur'), clean);
+        if (eq) dm.updateEquipe(eq.id, { nom, couleur: f.get('couleur'), membres: clean });
+        else dm.createEquipe(nom, f.get('couleur'), clean);
         closeModal();
         route();
         toast(eq ? 'Équipe mise à jour ✅' : 'Équipe créée ! Pensez aux étirements. 🧘');
