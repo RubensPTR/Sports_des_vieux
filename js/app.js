@@ -1,20 +1,12 @@
 /* Sports des Vieux — point d'entrée, routeur hash et rendu des pages */
 
+/* À incrémenter à chaque modification livrée (voir règle dans CLAUDE.md) */
+const APP_VERSION = '1.1.0';
+
 const storage = new StorageManager();
 const dm = new DataManager(storage);
 const calc = new Calculator(dm);
 const charts = new ChartsManager();
-
-const TAGLINES = [
-  'Là où l\'échauffement dure plus longtemps que le match.',
-  'Plus de kiné que de trophées.',
-  'On ne vieillit pas, on prend de l\'expérience.',
-  'Sponsorisé par personne, et ça se voit.',
-  'Doliprane non fourni.',
-  'Le seul tournoi avec pause sieste réglementaire.',
-  'Interdit aux moins de 40 ans (sauf pour ramasser les boules).',
-  'La Concombraise, c\'est pas un légume, c\'est un mode de vie.',
-];
 
 const EMPTY_QUOTES = [
   'Les échauffements ont dû mal tourner.',
@@ -560,7 +552,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   SEED = await loadSeed();
   storage.init(buildDefaults(SEED));
   applyTheme(storage.getParametres().theme || 'dark');
-  document.getElementById('tagline').textContent = pick(TAGLINES);
+  document.getElementById('app-version').textContent = `v${APP_VERSION}`;
   window.addEventListener('hashchange', route);
   route();
 });
