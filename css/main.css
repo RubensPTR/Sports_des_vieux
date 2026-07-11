@@ -88,7 +88,6 @@ body {
 /* ---------- Layout ---------- */
 .app { max-width: 960px; margin: 0 auto; padding: 16px; display: grid; gap: 14px; }
 .app > *, .grid-2 > *, .grid-cards > * { min-width: 0; } /* évite que les tableaux nowrap élargissent la grille */
-.app-footer { text-align: center; padding: 8px 16px 4px; color: var(--text-2); font-size: .78em; opacity: .7; }
 .page-title { font-size: 1.25em; display: flex; align-items: center; gap: 8px; }
 .page-sub { color: var(--text-2); font-size: .86em; font-style: italic; margin-top: -8px; }
 

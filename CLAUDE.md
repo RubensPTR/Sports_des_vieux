@@ -12,7 +12,7 @@ Donc pour mettre en prod : **merger/pousser sur `main`** suffit — GitHub Actio
 
 ## Numéro de version
 
-`APP_VERSION` (`js/app.js`, tout en haut) est affiché en bas de chaque page (`#app-footer`, peuplé au démarrage dans `DOMContentLoaded`). **Règle : incrémenter `APP_VERSION` à chaque modification livrée** (bump patch pour un correctif, minor pour une nouvelle fonctionnalité), pour que la version affichée reflète toujours le dernier changement déployé.
+`APP_VERSION` (`js/app.js`, tout en haut) est affiché sous le titre dans l'en-tête (`#app-version`, peuplé au démarrage dans `DOMContentLoaded`). **Règle : incrémenter `APP_VERSION` à chaque modification livrée** (bump patch pour un correctif, minor pour une nouvelle fonctionnalité), pour que la version affichée reflète toujours le dernier changement déployé.
 
 ## Service worker
 
